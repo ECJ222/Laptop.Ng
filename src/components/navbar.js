@@ -4,17 +4,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import {Link} from 'react-router-dom';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
-//import CloseIcon from '@material-ui/icons/Close';
-//import Drawer from '@material-ui/core/Drawer';
-import Drawers from './drawer'
+import Drawers from './drawer';
+import CartPop from './cartpop';
 
 //styles
-const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -22,26 +20,17 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow : 1,
 	},
 
+	title2:{
+		marginRight : theme.spacing(1),
+		fontSize : 'xl',
+	},
+
 	Mobileicon: {
 		paddingLeft :  '30%',
 		flexGrow : 1,
 	},
 
-	drawerPaper: {
-   		width: drawerWidth,
-   		textAlign : 'justify',
-  	},
-
-  	drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    }},
-
-    closeMenuButton: {
-    	marginRight: 0,
-    	marginLeft: 'auto',
-  	},
+	
 
 }));
 
@@ -50,10 +39,15 @@ const useStyles = makeStyles((theme) => ({
 function NavBar(){
 	const classes = useStyles();
 	const [mobilebar, setMobilebar] = React.useState(false);
+	const [cartshow, setCartshow] = React.useState(false);
 	//const theme = useTheme();
 
 	function handleDrawerToggle() {
     	setMobilebar(!mobilebar); //toggles the mobilebar state
+  	}
+
+  	function handleCart(){
+  		setCartshow(!cartshow); //toggles cart 
   	}
 	
 		return (
@@ -62,11 +56,19 @@ function NavBar(){
 					<Toolbar>
 						<Hidden xsDown>
 
-						<Link to='/' className="brand-logo"><img src="./laptop_ng.png" /></Link>
+							<Link to='/' className="brand-logo"><img src="./laptop_ng.png" /></Link>
 
-						<Typography variant="h6" color='inherit' className={classes.title}>
-							<Link to='/' className="brand-logo" style={{color : 'inherit'}}>LaptopNG</Link>
-						</Typography>
+							<Typography variant="h6" color='inherit' className={classes.title}>
+								<Link to='/' className="brand-logo" style={{color : 'inherit'}}>LaptopNG</Link>
+							</Typography>
+
+							<Button color='inherit' className={classes.title2}>
+								<Link to='/' className="brand-logo" style={{color : 'inherit'}}>Signup</Link>	
+							</Button>
+							<Button color = 'inherit' className={classes.title2}>
+								<Link to='/' className="brand-logo" style={{color : 'inherit'}}>Login</Link>
+							</Button>
+						
 
 						</Hidden>
 						<Hidden smUp>
@@ -83,8 +85,8 @@ function NavBar(){
 						</Hidden>
 
 
-						<Button color='inherit'>
-							<ShoppingCartIcon />
+						<Button color='inherit' onClick={handleCart}>
+							<ShoppingCartIcon style={{fontSize : 'xl'}}/>
 						</Button>
 
 					</Toolbar>
@@ -93,6 +95,13 @@ function NavBar(){
 				mobilebar={mobilebar}
 				handleDrawerToggle = {handleDrawerToggle}
 				/>
+				{/*Window cart*/}
+				{cartshow ? <CartPop /> : null}
+
+				
+				
+				
+				
 		    </div>
 
 			

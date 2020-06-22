@@ -1,0 +1,28 @@
+.container{
+	margin : auto;
+	width : 80%; 
+}
+
+.shopping-cart-header {
+    border-bottom: 1px solid #E8E8E8;
+    padding-bottom: 15px;
+}
+
+.shopping-cart-total{
+	float: right;
+}
+
+.lighter-text, .main-color-text{
+	color: #777777;
+}
+
+.w3-badge{
+	width: 9%;
+	height: 10%;
+	margin-left: 0px;
+	position: relative;
+	top: -10px;
+	border-radius: 100%;
+	transform: scale(0.8,0.8);
+	background : #B0DFE5;
+}

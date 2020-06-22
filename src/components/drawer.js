@@ -61,6 +61,10 @@ function Drawers(props){
 							</IconButton>
 							<Typography variant="h6" color='inherit' className={classes.title}>
 								<Link to='/' className="brand-logo" style={{color : '#B0DFE5', fontWeight : 900, fontSize : 25}}>Store</Link>
+								<br/>
+								<Link to='/' className="brand-logo" style={{color : '#B0DFE5', fontWeight : 900, fontSize : 25}}>Signup</Link>
+								<br/>
+								<Link to='/' className="brand-logo" style={{color : '#B0DFE5', fontWeight : 900, fontSize : 25}}>Login</Link>
 							</Typography>  
 					    </Drawer>
 
