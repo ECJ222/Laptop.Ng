@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production'){
 	app.use(express.static('client/build')); //all the static files are being served
 
 	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(__dirname, 'build', 'index.html')) //sends response data to index.html
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html')) //sends response data to index.html
 	});
 }
 
