@@ -1,0 +1,52 @@
+.vault-items-container {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex: 1;
+    padding-left: 90px; 
+}
+
+.vault-item {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 18rem;
+    height: 12.8rem;
+    margin-right: 1.5rem;
+    margin-bottom: 3rem;
+    border-radius: 0.2rem;
+    box-shadow: 0 0.1rem 0.3rem rgba(0, 24, 48, 0.2);
+    cursor: pointer;
+   
+}
+
+.vault-item-info {
+    flex-basis: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff;
+    padding: 0 0.9rem;
+    line-height: 1.2;
+}
+
+.vault-item-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #465e7b;
+}
+
+.vault-item-summary {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #666;
+}
+
+.vault-item-thumbnail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    font-size: 2.5rem;
+    color: #fff;
+}

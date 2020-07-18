@@ -1,0 +1,36 @@
+
+
+.mainbox {
+  background-color: #B0DFE5;
+  margin: auto;
+  height: 658px;
+  width: 100%;
+  position: relative;
+}
+
+  .err {
+    color: #ffffff;
+    font-family: 14px/22px "Lato", Arial, sans-serif;
+    font-size: 11rem;
+    position:absolute;
+    left: 29%;
+    top: 35%;
+  }
+
+.far {
+  position: absolute;
+  font-size: 8.5rem;
+  left: 42%;
+  top: 27%;
+  color: #ffffff;
+}
+
+ .err2 {
+    color: #ffffff;
+    font-family: 14px/22px "Lato", Arial, sans-serif;
+    font-size: 11rem;
+    position:absolute;
+    left: 59%;
+    top: 35%;
+  }
+

@@ -9,7 +9,8 @@ body {
   font: 14px/22px "Lato", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #F8F8F8;
+  background: white;
+  padding-right: 0px !important;
 }
 
 

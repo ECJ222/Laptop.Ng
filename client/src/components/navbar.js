@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import Drawers from './drawer';
 import CartPop from './cartpop';
+import {Popover, PopoverHeader, PopoverBody } from 'reactstrap'; //handle cart popover
+import { useHistory } from 'react-router-dom';
 
 //styles
 
@@ -39,20 +41,34 @@ const useStyles = makeStyles((theme) => ({
 function NavBar(){
 	const classes = useStyles();
 	const [mobilebar, setMobilebar] = React.useState(false);
-	const [cartshow, setCartshow] = React.useState(false);
+	const [popoverOpen, setPopoverOpen] = React.useState(false);
+	const token = localStorage.getItem('token') || null;
+	const Name = localStorage.getItem('name') || null ;
+	const history = useHistory();
+  	const toggle = (e) => {
+  		setPopoverOpen(!popoverOpen);
+  	}
+
+  	const removeToken = () => {
+		localStorage.removeItem('token');
+		if(window.location.pathname === '/'){
+			window.location.reload();
+		}else{
+			history.push('/');
+		}
+		
+
+	}
 	//const theme = useTheme();
 
 	function handleDrawerToggle() {
     	setMobilebar(!mobilebar); //toggles the mobilebar state
   	}
 
-  	function handleCart(){
-  		setCartshow(!cartshow); //toggles cart 
-  	}
 	
 		return (
 			<div>
-				<AppBar position = 'static' style={{background : '#B0DFE5'}}>
+				<AppBar position = 'static' style={{background : '#B0DFE5', paddingLeft : '5%', paddingRight : '5%'}}>
 					<Toolbar>
 						<Hidden xsDown>
 
@@ -61,14 +77,23 @@ function NavBar(){
 							<Typography variant="h6" color='inherit' className={classes.title}>
 								<Link to='/' className="brand-logo" style={{color : 'inherit'}}>LaptopNG</Link>
 							</Typography>
-
-							<Button color='inherit' className={classes.title2}>
-								<Link to='/' className="brand-logo" style={{color : 'inherit'}}>Signup</Link>	
-							</Button>
-							<Button color = 'inherit' className={classes.title2}>
-								<Link to='/' className="brand-logo" style={{color : 'inherit'}}>Login</Link>
-							</Button>
-						
+							{token == null ? 
+								<>
+									<Button color='inherit' className={classes.title2}>
+										<Link to='/register' className="brand-logo" style={{color : 'inherit'}}>Signup</Link>	
+									</Button>
+									<Button color = 'inherit' className={classes.title2}>
+										<Link to='/login' className="brand-logo" style={{color : 'inherit'}}>Login</Link>
+									</Button>
+								</>
+							:
+								<>
+									<Typography className={classes.title2} style={{color : 'inherit'}}>Hi {Name}!</Typography>
+									<Button color='inherit' onClick={removeToken} className={classes.title2}>
+										<Typography className="brand-logo" style={{color : 'inherit'}}>Logout</Typography>
+									</Button>
+								</>
+							}
 
 						</Hidden>
 						<Hidden smUp>
@@ -85,9 +110,10 @@ function NavBar(){
 						</Hidden>
 
 
-						<Button color='inherit' onClick={handleCart}>
+						<Button  color='inherit' id="cartpopover">
 							<ShoppingCartIcon style={{fontSize : 'xl'}}/>
 						</Button>
+
 
 					</Toolbar>
 				</AppBar>
@@ -95,9 +121,26 @@ function NavBar(){
 				mobilebar={mobilebar}
 				handleDrawerToggle = {handleDrawerToggle}
 				/>
-				{/*Window cart*/}
-				{cartshow ? <CartPop /> : null}
+				
+				
+				{/*Window cartpopup*/}
+				<Hidden xsDown>
+					<Popover placement="bottom" isOpen={popoverOpen} target="cartpopover" toggle={toggle} style={{position : 'relative', top : '20px', left : '-180px'}}>
+						<PopoverBody>
+							<CartPop />
+						</PopoverBody>
+					</Popover>
+				</Hidden>
 
+				<Hidden smUp>
+					<Popover placement="bottom" isOpen={popoverOpen} target="cartpopover" toggle={toggle} style={{position : 'relative', top : '10px', left : '-90px'}}>
+						<PopoverBody>
+							<CartPop />
+						</PopoverBody>
+					</Popover>
+				</Hidden>
+
+			
 				
 				
 				
