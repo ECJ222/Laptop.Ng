@@ -117,7 +117,7 @@ function Product(){
 				<div className={classes.mobilecontainer}>
 					{items.map((item, index) => (
 
-						<div className={classes.mobileitem} tabindex="0" key={index}>
+						<div className={classes.mobileitem} tabIndex="0" key={index}>
 							<div className={classes.mobilethumbnail}>
 								<img style={{width : '75px', height : '65px', marginTop : '10px'}} src={`http://localhost:5000/static/${item.path}`} alt="pc" />
 							</div>
@@ -125,8 +125,8 @@ function Product(){
 								<h3 className={classes.mobilename}>{item.name}</h3>
 								<p className={classes.mobilesummary}>${item.price}</p>
 							</div>
-							<Button style={{background : '#B0DFE5'}} onClick={handleOpen}>Add To Cart</Button>
-							<SimpleDialog open={open} handleOpenclose={handleOpenclose} name={item}/>
+							<Button style={{background : '#B0DFE5'}} onClick={() => handleOpen(item.name)}>Add To Cart</Button>
+							<SimpleDialog open={open} handleOpenclose={handleOpenclose} name={name}/>
 						</div>
 
 					))}
