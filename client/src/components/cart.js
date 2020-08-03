@@ -90,7 +90,7 @@ function Cart(){
 	const [load, setLoad] = React.useState(true);
 
 	React.useEffect(() => {
-		axios.get('http://localhost:5000/api-cart')
+		axios.get('https://laptopng.herokuapp.com/api-cart')
 		.then((res) => {
 			setCartitems(res.data);
 			setLoad(false);
@@ -102,7 +102,7 @@ function Cart(){
 	});
 	
 	const modify_qty = async (name, path, action) => {
-		await axios.post('http://localhost:5000/cart-increment', {
+		await axios.post('https://laptopng.herokuapp.com/cart-increment', {
 			email : email,
 			user : user,
 			name : name,
@@ -118,7 +118,7 @@ function Cart(){
 	}
 
 	const Delete = async (id) => {
-		await axios.delete(`http://localhost:5000/delete-cart/${id}`)
+		await axios.delete(`https://laptopng.herokuapp.com/delete-cart/${id}`)
 		.then((res) => console.log(res))
 		.catch((err) => console.log(err));
 	}
@@ -138,7 +138,7 @@ function Cart(){
 
 		await emailjs.send(service, template_ID, template_params, user_ID)
 		.then(() => {
-			window.location.href = `http://localhost:3000/cart/checkout/${random}/order`;
+			window.location.href = `https://laptopng.herokuapp.com/cart/checkout/${random}/order`;
 		})
 		.catch((err) => console.log(err));
 		
