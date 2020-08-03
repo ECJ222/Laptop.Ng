@@ -53,9 +53,7 @@ function NavBar(){
 	const [anchorEl, setAnchorEl] = React.useState(null);
   	const open = Boolean(anchorEl);
   	
-  	console.log(process.env)
   	
-
   	const toggle = (e) => {
   		setPopoverOpen(!popoverOpen);
   	}

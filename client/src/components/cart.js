@@ -132,9 +132,9 @@ function Cart(){
 			subject : `Laptop.Ng Order #${random}`,
 			message_html : `Your order #${random} has been shipped thank you for shopping with Laptop.Ng Your order delivery should arrive within the next 2 weeks.`
 		};
-		let template_ID = process.env.template_ID;
-		let service = process.env.service;
-		let user_ID = process.env.user_ID;
+		let template_ID = process.env.REACT_APP_TEMPLATE_ID;
+		let service = process.env.REACT_APP_SERVICE;
+		let user_ID = process.env.REACT_APP_USER_ID;
 
 		await emailjs.send(service, template_ID, template_params, user_ID)
 		.then(() => {
