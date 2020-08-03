@@ -192,7 +192,7 @@ function Cart(){
 								     	
 									      <td>
 
-									      	<img className={classes.image} src={`http://localhost:5000/static/${item.path}`} alt={`${item.name}`} />
+									      	<img className={classes.image} src={`https://laptopng.herokuapp.com/static/${item.path}`} alt={`${item.name}`} />
 									      	<br/>
 									      	<p className={classes.description}>
 									      		{item.name}
@@ -295,7 +295,7 @@ function Cart(){
 							    	<>
 								    <tr key={index} style={{animation : 'fadeIn .5s ease-in'}}>
 								      <td>
-								      	<img className={classes.Mobileimage}src={`http://localhost:5000/static/${item.path}`} alt={`${item.name}`} />
+								      	<img className={classes.Mobileimage}src={`https://laptopng.herokuapp.com/static/${item.path}`} alt={`${item.name}`} />
 								      	<br/>
 								      	<br/>
 								      	<p className={classes.Mobiledescription}>
