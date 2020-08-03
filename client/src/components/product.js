@@ -118,7 +118,7 @@ function Product(){
 		setOpen(true);
 		setName(name);
 	
-		await axios.post('http://localhost:5000/api-cart', {
+		await axios.post('https://laptopng.herokuapp.com/api-cart', {
 			email : email,
 			user : user,
 			name : name,
@@ -163,7 +163,7 @@ function Product(){
 						{items.slice(0, list).map((item, index) => (
 						<div className="vault-item password-item" tabIndex="0" key={index}>
 							<div className="vault-item-thumbnail">
-								<img style={{width : '105px', height : '95px', marginTop : '10px'}} src={`http://localhost:5000/static/${item.path}`} alt="pc" />
+								<img style={{width : '105px', height : '95px', marginTop : '10px'}} src={`https://laptopng.herokuapp.com/static/${item.path}`} alt="pc" />
 							</div>
 
 							<div className="vault-item-info">
@@ -211,7 +211,7 @@ function Product(){
 
 							<div className={classes.mobileitem} tabIndex="0" key={index}>
 								<div className={classes.mobilethumbnail}>
-									<img style={{width : '75px', height : '65px', marginTop : '10px'}} src={`http://localhost:5000/static/${item.path}`} alt="pc" />
+									<img style={{width : '75px', height : '65px', marginTop : '10px'}} src={`https://laptopng.herokuapp.com/static/${item.path}`} alt="pc" />
 								</div>
 								<div className={classes.mobileinfo}>
 									<h3 className={classes.mobilename}>{item.name}</h3>
