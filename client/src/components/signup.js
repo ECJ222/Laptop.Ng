@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import google from './static/brands-and-logotypes.png';
-import facebook from './static/facebook.png';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -37,6 +36,7 @@ function Register(){
 			if (res.data !== null && res.data !== 'User already exists'){
 				localStorage.setItem('token', res.data);
 				localStorage.setItem('name', name);
+				localStorage.setItem('email', email);
 				//redirects to home from here
 				setTimeout( () => {
 					history.push('/');
@@ -69,13 +69,12 @@ function Register(){
 
 	return(
 			
-			<div className="container" id="container">
+			<div className="container" id="container" style={{marginTop : '6%'}}>
 				<div className="form-container sign-up-container">
 					<form onSubmit={onSubmitform}>
 						<h1 style={{color : '#B0DFE5'}}>Create Account</h1>
 						<div className="social-container">
-							<a href="#"><img  className={classes.social} src={google} alt="google"/></a>
-							<a href="#" ><img className={classes.social} src={facebook} alt="facebook"/></a>
+							<a href="http://localhost:5000/auth/google"><img  className={classes.social} src={google} alt="google"/></a>
 						</div>
 						<span style={{color : '#B0DFE5'}}>or use your email for registration</span>
 						<input type="text" placeholder="Name" onChange={Namechange} value={name}/>
@@ -92,4 +91,4 @@ function Register(){
 		);
 }
 
-export default Register
+export default Register;

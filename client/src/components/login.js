@@ -2,7 +2,6 @@ import React from 'react'
 import { Button } from 'reactstrap';
 import {Link} from 'react-router-dom';
 import google from './static/brands-and-logotypes.png';
-import facebook from './static/facebook.png';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -24,7 +23,7 @@ function Login(){
 	const [password, setPassword] = React.useState('');
 	const [userExist, setuserExist] = React.useState(false);
 	const [response, setResponse] = React.useState('');
-
+		
 	const onSubmitform = async (e) => {
 		e.preventDefault();
 		await axios.post('/api/login', {
@@ -37,8 +36,9 @@ function Login(){
 			if (res.data !== null && res.data !== 'User not exist' && res.data !== 'Password Invalid'){
 				localStorage.setItem('token', res.data.token);
 				localStorage.setItem('name', res.data.name);
+				localStorage.setItem('email', res.data.email);
 				//redirects to home from here
-				if(localStorage.getItem('token') !== undefined && localStorage.getItem('name') !== undefined ){
+				if(localStorage.getItem('token') !== undefined && localStorage.getItem('name') !== undefined && localStorage.getItem('email') !== undefined  ){
 					setTimeout( () => {
 						history.push('/');
 					}, 1000)
@@ -65,14 +65,15 @@ function Login(){
 	const Passwordchange = (e) => {
 		setPassword(e.target.value)
 	}
+	
+	
 	return(
-			<div className="container">
+			<div className="container" style={{marginTop : '6%'}}>
 				<div className="form-container sign-in-container">
 					<form onSubmit={onSubmitform}>
 						<h1 style={{color : '#B0DFE5'}}>Sign in</h1>
 						<div className="social-container">
-							<a href="#" ><img className={classes.social} src={google} alt="google"/></a>
-							<a href="#" ><img className={classes.social} src={facebook} alt="facebook"/></a>
+							<a href="http://localhost:5000/auth/google"><img className={classes.social} src={google} alt="google"/></a>
 						</div>
 						<span style={{color : '#B0DFE5'}}>or use your account</span>
 						<input type="email" placeholder="Email" onChange={Emailchange} value={email} style= { response == 'User not exist' ? {borderBottom : '1px solid red'} : {}}/>
@@ -88,4 +89,4 @@ function Login(){
 		);
 }
 
-export default Login
+export default Login;

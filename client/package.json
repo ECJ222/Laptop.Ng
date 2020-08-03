@@ -9,10 +9,13 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "contentful": "^7.14.4",
+    "framer-motion": "^2.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-responsive-carousel": "^3.2.9",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-spinners": "^0.9.0",
     "reactstrap": "^8.5.1",
     "websocket-extensions": "^0.1.4"
   },
@@ -41,5 +44,8 @@
   "main": "index.js",
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "emailjs-com": "^2.6.3"
+  }
 }

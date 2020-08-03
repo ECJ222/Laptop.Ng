@@ -1,0 +1,16 @@
+.carousel .thumb img {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.desktop-carousel .desktop-images {
+    height: 500px;  /* change this image to whatever you want */
+}
+
+.mobile-carousel .mobile-images{
+    height: 240px;  /* change this image to whatever you want */
+}
+
+.carousel{
+	height: auto !important;
+}

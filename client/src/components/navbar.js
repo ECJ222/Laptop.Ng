@@ -13,6 +13,11 @@ import Drawers from './drawer';
 import CartPop from './cartpop';
 import {Popover, PopoverHeader, PopoverBody } from 'reactstrap'; //handle cart popover
 import { useHistory } from 'react-router-dom';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Fade from '@material-ui/core/Fade';
 
 //styles
 
@@ -45,30 +50,50 @@ function NavBar(){
 	const token = localStorage.getItem('token') || null;
 	const Name = localStorage.getItem('name') || null ;
 	const history = useHistory();
+	const [anchorEl, setAnchorEl] = React.useState(null);
+  	const open = Boolean(anchorEl);
+  	
+  	console.log(process.env)
+  	
+
   	const toggle = (e) => {
   		setPopoverOpen(!popoverOpen);
   	}
 
   	const removeToken = () => {
 		localStorage.removeItem('token');
+		localStorage.removeItem('name');
+		localStorage.removeItem('email');
 		if(window.location.pathname === '/'){
-			window.location.reload();
+			window.location.href = 'http://localhost:3000';
 		}else{
 			history.push('/');
 		}
 		
 
 	}
+
+	const showLogout = (e) =>{
+		setAnchorEl(e.currentTarget);	
+	}
+
+
+	const handleClose = () => {
+		
+	    setAnchorEl(null);
+	  };
 	//const theme = useTheme();
 
-	function handleDrawerToggle() {
+	const handleDrawerToggle = () => {
     	setMobilebar(!mobilebar); //toggles the mobilebar state
   	}
+
+
 
 	
 		return (
 			<div>
-				<AppBar position = 'static' style={{background : '#B0DFE5', paddingLeft : '5%', paddingRight : '5%'}}>
+				<AppBar position="fixed" style={{background : '#B0DFE5', paddingLeft : '5%', paddingRight : '5%'}}>
 					<Toolbar>
 						<Hidden xsDown>
 
@@ -88,10 +113,43 @@ function NavBar(){
 								</>
 							:
 								<>
-									<Typography className={classes.title2} style={{color : 'inherit'}}>Hi {Name}!</Typography>
-									<Button color='inherit' onClick={removeToken} className={classes.title2}>
-										<Typography className="brand-logo" style={{color : 'inherit'}}>Logout</Typography>
-									</Button>
+									
+									{!open
+										? 
+										   <>
+											<Typography className={classes.title2} style={{color : 'inherit', cursor : 'pointer'}} onClick={showLogout}>Hi {Name} <KeyboardArrowDownIcon style={{fontSize : 'medium'}}/></Typography>
+										   </>
+									    :
+									    	<>
+											 <Typography className={classes.title2} style={{color : 'inherit', cursor : 'pointer'}} onClick={showLogout}>Hi {Name} <KeyboardArrowUpIcon style={{fontSize : 'medium'}}/></Typography>
+
+											 
+											 
+											 <Menu
+										        id="fade-menu"
+										        anchorEl={anchorEl}
+										        keepMounted
+										        open={open}
+										        onClose={handleClose}
+										        TransitionComponent={Fade}
+										        elevation={0}
+											    getContentAnchorEl={null}
+											    anchorOrigin={{
+											      vertical: 'bottom',
+											      horizontal: 'center',
+											    }}
+											    transformOrigin={{
+											      vertical: 'top',
+											      horizontal: 'center',
+											    }}
+										        style={{marginTop : '3px'}}
+										      >
+										        <MenuItem onClick={removeToken} style={{color : '#B0DFE5'}}>Logout</MenuItem>
+										        
+										      </Menu>
+											 
+										    </>}
+									
 								</>
 							}
 
@@ -153,4 +211,4 @@ function NavBar(){
 	
 }
 
-export default NavBar
+export default NavBar;

@@ -3,6 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button } from 'reactstrap';
 import Hidden from '@material-ui/core/Hidden';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
+import ClearIcon from '@material-ui/icons/Clear';
+import Checkout from './checkout';
+import './cart.css';
+import {PuffLoader} from "react-spinners";
+import emailjs from 'emailjs-com';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -14,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
 
 		paddingLeft : '10%',
 		paddingRight : '1%',
-		marginTop : '1%'
+		marginTop : '90px',
+		animation : 'fadeIn .5s ease-in'
 	},
 	image : {
 		height : '50px',
@@ -43,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
 
 		paddingLeft : '10%',
 		paddingRight : '1%',
-		marginTop : '3%'
+		marginTop : '20%',
+		animation : 'fadeIn .5s ease-in'
 	},
 	Mobileimage : {
 		height : '40px',
@@ -73,8 +81,70 @@ const useStyles = makeStyles((theme) => ({
 
 })
 );
+
 function Cart(){
 	const classes = useStyles();
+	const [cartitems, setCartitems] = React.useState([]);
+	const user = localStorage.getItem('name') || null;
+	const email = localStorage.getItem('email') || null;
+	const [load, setLoad] = React.useState(true);
+
+	React.useEffect(() => {
+		axios.get('http://localhost:5000/api-cart')
+		.then((res) => {
+			setCartitems(res.data);
+			setLoad(false);
+		})
+		.catch((err) => {
+			console.log(err)
+			setLoad(false);
+		});
+	});
+	
+	const modify_qty = async (name, path, action) => {
+		await axios.post('http://localhost:5000/cart-increment', {
+			email : email,
+			user : user,
+			name : name,
+			path : path,
+			action : action
+
+		})
+		.then((res) => {
+			console.log(res);
+			
+		})
+		.catch((err) => console.log(err));
+	}
+
+	const Delete = async (id) => {
+		await axios.delete(`http://localhost:5000/delete-cart/${id}`)
+		.then((res) => console.log(res))
+		.catch((err) => console.log(err));
+	}
+
+	const Checkout = async () => {
+		let random = Math.floor(Math.random() * 5000) + 1000
+
+		let template_params = {
+			to_email : email,
+			from_email : 'nicolaschejieh@gmail.com',
+			subject : `Laptop.Ng Order #${random}`,
+			message_html : `Your order #${random} has been shipped thank you for shopping with Laptop.Ng Your order delivery should arrive within the next 2 weeks.`
+		};
+		let template_ID = process.env.template_ID;
+		let service = process.env.service;
+		let user_ID = process.env.user_ID;
+
+		await emailjs.send(service, template_ID, template_params, user_ID)
+		.then(() => {
+			window.location.href = `http://localhost:3000/cart/checkout/${random}/order`;
+		})
+		.catch((err) => console.log(err));
+		
+	}  
+
+
 	return(
 		<>
 		 <Hidden xsDown>
@@ -82,47 +152,104 @@ function Cart(){
 				<Link to="/"><Button style={{background : '#B0DFE5'}}>
 					continue Shopping
 				</Button></Link>
-				<table className={classes.table}>
-				  <tbody>
-				    <tr>
-				      <th>Item</th>
-				      <th>Price</th>
-				      <th>Quantity</th>
-				      <th>Subtotal</th>
-				    </tr>
-				    
-				    <tr>
-				      <td>
-				      	<img className={classes.image} src="http://lghttp.18445.nexcesscdn.net/808F9E/mage/media/catalog/product/cache/2/thumbnail/550x/9df78eab33525d08d6e5fb8d27136e95/v/5/v508_hammer.jpg" />
-				      	<br/>
-				      	<p className={classes.description}>
-				      		16 in. Groove Joint Pliers SKU#1234
-				      	</p>
-				      </td>
-				      <td id="price">
-				      	$24.99
-				      </td>
-				      <td>
-					      <div className="counter">
-					  		<input id="qty" value="0" style={{width : '10px', borderBottom : '0px solid', height : '15px', paddingLeft : '21px'}}/>
-					  		<br/>
-					  		<Button className={classes.button1} onclick="modify_qty(-1)">-</Button>
-					  		<Button className={classes.button2} onclick="modify_qty(+1)">+</Button>
-						  </div>
-					  </td>
-				      <td id="subtotal">
-				      	$24.99
-				      </td>
-				    </tr>
+
+				{user !== null ?
+					<>
+					{load 
+						?
+						 <>
+							<div style={{display: "flex", marginLeft : '40%', marginTop : "6%", zIndex : 1, animation : 'fadeOut .5s ease-out'}}>
+								<PuffLoader loading={true} color={"#B0DFE5"} />
+							</div>
+						 </>
+						:
+						<>
+							<table className={classes.table}>
+							  <tbody>
+							  {cartitems.filter(items => items.user === user ).length > 0 
+							  	?
+							  	<>
+								    <tr>
+								      <th>Item</th>
+								      <th>Price</th>
+								      <th>Quantity</th>
+								      <th>Subtotal</th>
+								     
+								    </tr>
+							    </>
+							    :
+							    <>
+							    		
+							    		<tr style={{borderBottom : '0px solid', marginTop : '30px'}}><td style={{color : '#B0DFE5', textTransform : 'uppercase', fontSize : 'xx-large', lineHeight : '1.2', textAlign : 'center'}}>No Item In Cart Continue shopping hopefully you find something you like.</td></tr>
+							   		
+							    </>
+							   }
+							    {cartitems.filter(items => items.user === user ).map((item, index) => (
+							    	<>
+								    <tr key={index} style={{animation : 'fadeIn .5s ease-in'}}>
+								     
+								     
+								     	
+									      <td>
+
+									      	<img className={classes.image} src={`http://localhost:5000/static/${item.path}`} alt={`${item.name}`} />
+									      	<br/>
+									      	<p className={classes.description}>
+									      		{item.name}
+									      	</p>
+									      </td>
+									      <td id="price">
+									      	${(item.price).toFixed(2)}
+									      </td>
+
+									      <td>
+										      <div className="counter">
+										  		<input value={item.quantity} style={{display : 'inline-block', width : '30%', textAlign : 'center'}} readOnly/>
+										  		<br/>
+										  		<Button className={classes.button1} onClick={() => modify_qty(item.name, item.path, 'minus')}>-</Button>
+										  		<Button className={classes.button2} onClick={() => modify_qty(item.name, item.path, 'add')}>+</Button>
+											  </div>
+										  </td>
+									      <td id="subtotal">
+									      	${(item.price * item.quantity).toFixed(2)}
+									      </td>
+									      <td>
+									      	<ClearIcon style={{fontSize : 'xx-large', color : '#B0DFE5', cursor : 'pointer'}} onClick={() => Delete(item._id)}/>
+									      </td>
+
+									    
+								    
+
+								    </tr>
+							        </>
+							    ))}
 
 
-				   
-				  </tbody>
-				</table>
+							   
+							  </tbody>
+							</table>
+						</>}
+					</>
+					:
+					<>
+						<Link to="/login"><Button style={{background : '#B0DFE5'}}>
+							Sign in
+						</Button></Link>
+					</>
+				}
+
 				<br/>
-				<Button style={{background : '#B0DFE5', float : 'right', marginRight : '200px'}}>
-					Checkout
-				</Button>
+				{cartitems.filter(items => items.user === user ).length > 0 
+					?
+					<>
+						<Button onClick={Checkout} style={{background : '#B0DFE5', float : 'right', marginRight : '200px'}}>
+							Checkout
+						</Button>
+					</>
+					:
+					<>
+					</>}
+
 			</div>
 		 </Hidden>
 
@@ -130,50 +257,96 @@ function Cart(){
 
 		 <Hidden smUp>
 			<div className={classes.Mobilewindow}>
-				<Button style={{background : '#B0DFE5'}}>
+				<Link to="/"><Button style={{background : '#B0DFE5'}}>
 					continue Shopping
-				</Button>
-				<table className={classes.table}>
-				  <tbody>
-				    <tr>
-				      <th>Item</th>
-				      <th>Price</th>
-				      <th>Quantity</th>
-				      <th>Subtotal</th>
-				    </tr>
-				    
-				    <tr>
-				      <td>
-				      	<img className={classes.Mobileimage} src="http://lghttp.18445.nexcesscdn.net/808F9E/mage/media/catalog/product/cache/2/thumbnail/550x/9df78eab33525d08d6e5fb8d27136e95/v/5/v508_hammer.jpg" />
-				      	<br/>
-				      	<p className={classes.Mobiledescription}>
-				      		16 in. Groove Joint Pliers SKU#1234
-				      	</p>
-				      </td>
-				      <td id="price">
-				      	$24.99
-				      </td>
-				      <td>
-					      <div className="counter">
-					  		<input id="qty" value="0" style={{width : '10px', borderBottom : '0px solid', height : '15px', paddingLeft : '21px'}}/>
-					  		<br/>
-					  		<Button className={classes.Mobilebutton1} onclick="modify_qty(-1)">-</Button>
-					  		<Button className={classes.Mobilebutton2} onclick="modify_qty(+1)">+</Button>
-						  </div>
-					  </td>
-				      <td id="subtotal">
-				      	$24.99
-				      </td>
-				    </tr>
+				</Button></Link>
+				{user !== null ?
+					<>
+					{load 
+						?
+						 <>
+							<div style={{display: "flex", marginLeft : '36%', marginTop : "6%", zIndex : 1, animation : 'fadeOut .5s ease-out'}}>
+								<PuffLoader loading={true} color={"#B0DFE5"} />
+							</div>
+						 </>
+					    :
+					     <>
+							<table className={classes.table}>
+							  <tbody>
 
+							    {cartitems.filter(items => items.user === user ).length > 0
+							  	?
+							  	<>
+								    <tr>
+								      <th>Item</th>
+								      <th>Price</th>
+								      <th>Quantity</th>
+								      <th>Subtotal</th>
+								      
+								    </tr>
+							    </>
+							    :
+							    <>
+							    	<tr style={{borderBottom : '0px solid', marginTop : '30px'}}><td style={{color : '#B0DFE5', textTransform : 'uppercase', fontSize : 'xx-large', lineHeight : '1.2', textAlign : 'center'}}>No Item In Cart Continue shopping hopefully you find something you like.</td></tr>
+							    </>
+							   }
 
-				   
-				  </tbody>
-				</table>
+							    {cartitems.filter(items => items.user === user ).map((item, index) => (
+							    	<>
+								    <tr key={index} style={{animation : 'fadeIn .5s ease-in'}}>
+								      <td>
+								      	<img className={classes.Mobileimage}src={`http://localhost:5000/static/${item.path}`} alt={`${item.name}`} />
+								      	<br/>
+								      	<br/>
+								      	<p className={classes.Mobiledescription}>
+								      		{item.name}
+								      	</p>
+
+								      </td>
+								      <td id="price">
+								      	${(item.price).toFixed(2)}
+								      </td>
+								      <td>
+									      <div className="counter">
+									  		<input value={item.quantity} style={{paddingLeft : '23px', width : '25px', textAlign : 'centre'}} readOnly/>
+									  		<br/>
+									  		<Button className={classes.Mobilebutton1} onClick={() => modify_qty(item.name, item.path, 'minus')}>-</Button>
+									  		<Button className={classes.Mobilebutton2} onClick={() => modify_qty(item.name, item.path, 'add')}>+</Button>
+										  </div>
+									  </td>
+								      <td id="subtotal">
+								      	${(item.price * item.quantity).toFixed(2)}
+								      </td>
+								      <td>
+									      	<ClearIcon style={{fontSize : 'xx-large', color : '#B0DFE5'}} onClick={() => Delete(item._id)}/>
+									  </td>
+								    </tr>
+								    </>
+							    ))}
+
+							   
+							  </tbody>
+							</table>
+						</>}
+					</>
+					:
+					<>
+						<Link to="/login"><Button style={{background : '#B0DFE5'}}>
+							Sign in
+						</Button></Link>
+					</>
+				}
 				<br/>
-				<Button style={{background : '#B0DFE5', float : 'right', marginRight : '30px'}}>
-					Checkout
-				</Button>
+				{cartitems.filter(items => items.user === user ).length > 0 
+					?
+					<>
+						<Button onClick={Checkout} style={{background : '#B0DFE5', float : 'right', marginRight : '30px'}}>
+							Checkout
+						</Button>
+					</>
+					:
+					<>
+					</>}
 			</div>
 		 </Hidden>
 		</>
@@ -181,4 +354,4 @@ function Cart(){
 		);
 }
 
-export default Cart
+export default Cart;

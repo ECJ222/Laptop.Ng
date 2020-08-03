@@ -45,8 +45,10 @@ function Drawers(props){
 	
 	const removeToken = () => {
 		localStorage.removeItem('token');
+		localStorage.removeItem('name');
+		localStorage.removeItem('email');
 		if(window.location.pathname === '/'){
-			window.location.reload();
+			window.location.href = 'http://localhost:3000';
 		}else{
 			history.push('/');
 		}

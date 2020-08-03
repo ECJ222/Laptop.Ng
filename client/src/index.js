@@ -8,6 +8,7 @@ import Forgotpassword from './components/forgotpassword';
 import Product from './components/product';
 import Login from './components/login';
 import Page404 from './components/404';
+import Checkout from './components/checkout';
 import { BrowserRouter, Route, Switch} from 'react-router-dom'
 import * as serviceWorker from './serviceWorker';
 
@@ -36,6 +37,10 @@ ReactDOM.render(
             <Login />
         </Route>
 
+        <Route path="/cart/checkout/:id/order" render={(props) => <Checkout {...props}/>} />
+            
+        
+
   			<Route path="/cart">
             <NavBar />
             <Cart />
@@ -49,6 +54,8 @@ ReactDOM.render(
         <Route path="*">
             <Page404 />
         </Route>
+
+
         
 
   		</Switch>
