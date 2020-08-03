@@ -346,6 +346,18 @@ module.exports = (app) => {
 				console.log(err)
 			}
 		});
+		
+		app.post('/checkout-delete', async (req, res) => {
+			try{
+
+				await model.CartDb.deleteMany({email : req.body.email}) //delete all cart items containing this email
+				.then(() => console.log('deleted'))
+				.catch((err) => console.log(err));		
+
+			}catch(err){
+				console.log(err);
+			}
+		});
 
 		//Social Auth
 
