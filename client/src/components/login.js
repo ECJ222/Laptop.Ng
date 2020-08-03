@@ -68,7 +68,7 @@ function Login(){
 	
 	
 	return(
-			<div className="container" style={{marginTop : '6%'}}>
+			<div className="container" style={{marginTop : '80px'}}>
 				<div className="form-container sign-in-container">
 					<form onSubmit={onSubmitform}>
 						<h1 style={{color : '#B0DFE5'}}>Sign in</h1>
