@@ -137,7 +137,7 @@ function Cart(){
 		let user_ID = process.env.REACT_APP_USER_ID;
 
 		await emailjs.send(service, template_ID, template_params, user_ID)
-		.then(() => {
+		.then(async () => {
 			window.location.href = `https://laptopng.herokuapp.com/cart/checkout/${random}/order`;
 			if(email !== null){
 				await axios.post('https://laptopng.herokuapp.com/checkout-delete', {
