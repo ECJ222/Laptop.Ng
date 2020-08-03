@@ -48,7 +48,7 @@ function Drawers(props){
 		localStorage.removeItem('name');
 		localStorage.removeItem('email');
 		if(window.location.pathname === '/'){
-			window.location.href = 'http://localhost:3000';
+			window.location.href = 'https://laptopng.herokuapp.com';
 		}else{
 			history.push('/');
 		}
