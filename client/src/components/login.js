@@ -73,7 +73,7 @@ function Login(){
 					<form onSubmit={onSubmitform}>
 						<h1 style={{color : '#B0DFE5'}}>Sign in</h1>
 						<div className="social-container">
-							<a href="http://localhost:5000/auth/google"><img className={classes.social} src={google} alt="google"/></a>
+							<a href="https://laptopng.herokuapp.com/auth/google"><img className={classes.social} src={google} alt="google"/></a>
 						</div>
 						<span style={{color : '#B0DFE5'}}>or use your account</span>
 						<input type="email" placeholder="Email" onChange={Emailchange} value={email} style= { response == 'User not exist' ? {borderBottom : '1px solid red'} : {}}/>
