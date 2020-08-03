@@ -139,6 +139,13 @@ function Cart(){
 		await emailjs.send(service, template_ID, template_params, user_ID)
 		.then(() => {
 			window.location.href = `https://laptopng.herokuapp.com/cart/checkout/${random}/order`;
+			if(email !== null){
+				await axios.post('https://laptopng.herokuapp.com/checkout-delete', {
+					email : email
+				})
+				.then((res) => console.log(res))
+				.catch((err) => console.log(err));
+			}
 		})
 		.catch((err) => console.log(err));
 		
