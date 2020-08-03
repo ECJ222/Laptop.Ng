@@ -364,7 +364,7 @@ module.exports = (app) => {
 		                  }
 		                  
 		                   res.redirect(url.format({
-		                   		pathname : 'http://localhost:3000',
+		                   		pathname : 'https://laptopng.herokuapp.com',
 		                   		query : {
 		                   			'n_e' : req.user.name,
 		                   			't_n' : token,
