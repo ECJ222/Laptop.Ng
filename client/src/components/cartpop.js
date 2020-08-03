@@ -51,7 +51,7 @@ function CartPop(){
 	const [load, setLoad] = React.useState(true);
 	
 	React.useEffect(() => {
-		axios.get('http://localhost:5000/api-cart')
+		axios.get('/api-cart')
 		.then((res) => {
 			setCartitems(res.data);
 			setLoad(false);
@@ -104,7 +104,7 @@ function CartPop(){
 									 	{cartitems.filter(items => items.user === user ).map((item, index) => (
 														
 														<li key={index}>
-								        					<img src={`http://localhost:5000/static/${item.path}`} alt={`${item.name}`} style={{width : '40px' , height : '40px'}}/>
+								        					<img src={`https://laptopng.herokuapp.com/static/${item.path}`} alt={`${item.name}`} style={{width : '40px' , height : '40px'}}/>
 								        					<span className="cart-name">{item.name}</span>
 								        					<span className="cart-price">${item.price.toFixed(2)}</span>
 								        					<span className="cart-quantity">Quantity: {item.quantity}</span>
@@ -167,7 +167,7 @@ function CartPop(){
 										 		{cartitems.filter(items => items.user === user ).map((item, index) => (
 												
 														 <li key={index}>
-								        					<img src={`http://localhost:5000/static/${item.path}`} alt={`${item.name}`} style={{width : '40px' , height : '40px'}}/>
+								        					<img src={`https://laptopng.herokuapp.com/static/${item.path}`} alt={`${item.name}`} style={{width : '40px' , height : '40px'}}/>
 								        					<span className="cart-name">{item.name}</span>
 								        					<span className="cart-price">${item.price.toFixed(2)}</span>
 								        					<span className="cart-quantity">Quantity: {item.quantity}</span>
