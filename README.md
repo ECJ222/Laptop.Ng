@@ -1,4 +1,4 @@
-![alt text](https://github.com/[ECJ222]/Laptop.Ng/master/portfolios2.jpg?raw=true)
+![alt text](https://github.com/ECJ222/Laptop.Ng/blob/master/portfolios2.jpg?raw=true) 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
