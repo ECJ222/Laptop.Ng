@@ -1,5 +1,5 @@
 ![alt text](https://github.com/ECJ222/Laptop.Ng/blob/master/portfolios2.jpg?raw=true) 
-
+xd
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
